@@ -27,17 +27,14 @@ jobs:
         env:
           NEXT_PUBLIC_WORDPRESS_API_URL: https://menprimestore.com/wp-json
 
-      - name: Deploy to cPanel FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      # Deploy using SFTP (SSH Port 22 - Safe & Fast)
+      - name: Deploy to cPanel via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          server: ${{ secrets.CPANEL_FTP_SERVER }}
           username: ${{ secrets.CPANEL_FTP_USERNAME }}
+          server: ${{ secrets.CPANEL_FTP_SERVER }}
+          ssh_private_key: ''
           password: ${{ secrets.CPANEL_FTP_PASSWORD }}
-          server-dir: frontend/
-          local-dir: ./
-          dangerous-clean-slate: false
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            .github/**
+          local_path: './*'
+          remote_path: '/home/menprime/frontend'
+          args: '-o StrictHostKeyChecking=no'
