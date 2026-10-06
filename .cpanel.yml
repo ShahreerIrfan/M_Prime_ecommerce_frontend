@@ -1,8 +1,8 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/username/frontend/
+    - export DEPLOYPATH=/home/menprime/frontend/
     - /bin/cp -R * $DEPLOYPATH
-    - cd $DEPLOYPATH && npm install --production
-    - npm run build
+    - /bin/mkdir -p tmp
     - touch tmp/restart.txt
+
