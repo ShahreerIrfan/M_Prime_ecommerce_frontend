@@ -3,7 +3,8 @@ name: Deploy Next.js to cPanel
 on:
   push:
     branches:
-      - main # Trigger deployment on pushes to main branch
+      - main
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
 
 jobs:
   build-and-deploy:
@@ -20,25 +21,25 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
+          cache-dependency-path: package-lock.json
 
       # Step 3: Install dependencies & Build Next.js
       - name: Install & Build
         run: |
-          cd frontend
           npm ci
           npm run build
 
-      # Step 4: Deploy to cPanel via FTP / SFTP
-      - name: Deploy via FTP
+      # Step 4: Deploy to cPanel via FTP
+      - name: Deploy to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.CPANEL_FTP_SERVER }}
           username: ${{ secrets.CPANEL_FTP_USERNAME }}
           password: ${{ secrets.CPANEL_FTP_PASSWORD }}
-          server-dir: /frontend/ # Target folder on cPanel
-          local-dir: ./frontend/ # Local directory to upload
+          server-dir: /frontend/
+          local-dir: ./
           exclude: |
             **/.git*
             **/.git*/**
             **/node_modules/**
+            .github/**
