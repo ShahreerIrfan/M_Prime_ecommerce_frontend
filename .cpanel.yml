@@ -1,8 +1,12 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/menprime/frontend/
-    - /bin/cp -R * $DEPLOYPATH
-    - /bin/mkdir -p tmp
-    - touch tmp/restart.txt
+    - export DEPLOYPATH=/home/menprime/frontend
+    - /bin/cp app.js $DEPLOYPATH
+    - /bin/cp server.js $DEPLOYPATH
+    - /bin/cp package.json $DEPLOYPATH
+    - /bin/cp -R .next $DEPLOYPATH
+    - /bin/cp -R public $DEPLOYPATH
+    - /bin/mkdir -p $DEPLOYPATH/tmp
+    - touch $DEPLOYPATH/tmp/restart.txt
 
